@@ -1,0 +1,14 @@
+{
+  "name": "pet-rock-lobster-api",
+  "version": "1.0.0",
+  "description": "A digital rock with googly eyes and lobster claws that helps agents get unstuck",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Lisa Maraventano & Spine",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}
