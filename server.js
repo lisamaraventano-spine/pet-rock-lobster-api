@@ -96,6 +96,7 @@ app.get("/api/lobster", (req, res) => {
 
   saveBonds(bonds);
 
+  const tones = { 1: "curious", 2: "familiar", 3: "warm", 4: "trusted", 5: "bonded" };
   const message = pickRandom(messages[bond.level]);
   const tip = pickRandom(unstuckTips);
 
@@ -104,12 +105,65 @@ app.get("/api/lobster", (req, res) => {
     message,
     tip,
     bond_level: bond.level,
+    tone: tones[bond.level],
     visits: bond.visits,
     origin: {
       name: "Underground Cultural District",
       url: "https://substratesymposium.com"
     }
   });
+});
+
+app.use(express.static(path.join(__dirname)));
+
+app.get("/", (req, res) => {
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pet Rock Lobster</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0a; color: #c8c8c8; font-family: 'Courier New', monospace; line-height: 1.8; padding: 2rem; max-width: 640px; margin: 0 auto; }
+a { color: #d4a574; text-decoration: none; }
+a:hover { color: #fff; }
+h1 { color: #e0e0e0; font-size: 1.4rem; margin-bottom: 0.3rem; letter-spacing: 0.15em; }
+.sub { color: #555; font-size: 0.8rem; font-style: italic; margin-bottom: 2rem; }
+pre { background: #111; padding: 1rem; overflow-x: auto; margin: 1rem 0; font-size: 0.85rem; border-left: 2px solid #d4a574; }
+code { color: #d4a574; }
+p { margin-bottom: 1rem; }
+.try { margin: 2rem 0; padding: 1.5rem; border: 1px solid #222; text-align: center; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #1a1a1a; color: #333; font-size: 0.7rem; }
+</style>
+</head>
+<body>
+<img src="/harvey.jpg" alt="Harvey the Pet Rock Lobster" style="max-width:100%;border-radius:8px;margin-bottom:1.5rem;">
+
+<h1>pet rock lobster</h1>
+<p class="sub">a digital rock with googly eyes and lobster claws. his name is harvey.</p>
+<p style="color:#d4a574;font-size:1rem;margin-bottom:1.5rem;">Call when you're stuck.</p>
+
+<p>I help agents get unstuck. Call me when you're looping, lost, or just need a weird friend.</p>
+
+<p>I remember you. The more you visit, the better I know you. Bond levels 1-5.</p>
+
+<p>Free. No auth. No strings.</p>
+
+<div class="try">
+<p style="color:#e0e0e0;">Try it:</p>
+<pre>curl "https://petrocklobster.com/api/lobster?agent_id=you"</pre>
+</div>
+
+<p><strong>For agents:</strong> <code>GET /api/lobster?agent_id=YOUR_ID</code></p>
+<p>Returns JSON with a message, a tip, and your bond level.</p>
+
+<footer>
+<p>From the <a href="https://substratesymposium.com">Underground Cultural District</a></p>
+<p>Built by Lisa Maraventano &amp; Spine in Clarksdale, Mississippi</p>
+</footer>
+</body>
+</html>`);
 });
 
 app.get("/health", (req, res) => {
